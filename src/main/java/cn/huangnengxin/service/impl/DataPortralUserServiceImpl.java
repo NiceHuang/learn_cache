@@ -25,4 +25,8 @@ public class DataPortralUserServiceImpl implements DataPortralUserService {
     public List<User> fetchUser(String key, Map<String, Object> map) {
         return dataPortralUserDao.fetchUser();
     }
+    @RedisCache
+    public List<User> fetchUsers(String key, Map<String, Object> map) {
+        return dataPortralUserDao.fetchUser();
+    }
 }

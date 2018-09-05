@@ -49,6 +49,7 @@ public class RedisCache {
         Jedis jedis = jedisPool.getResource();
 
         String code = jedis.set(redisKey.getBytes(), bytes);
+        jedis.expire(redisKey.getBytes(), 60);
 
         return code;
     }
