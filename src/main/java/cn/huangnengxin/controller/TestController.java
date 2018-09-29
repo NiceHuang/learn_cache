@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,23 @@ public class TestController {
         return JSON.toJSONString(user);
     }
 
+    @RequestMapping(value = "/read")
+    public List<User> testRead(){
+        List<User> users = dataPortralUserService.fetchUsers();
+        return users;
+    }
+
+    @RequestMapping(value = "/write")
+    public String testWrite(){
+        User user = new User();
+        user.setUsername("test1");
+        user.setEmail("test1@myhexin.com");
+        user.setStatus(true);
+        user.setPassword("123456");
+        dataPortralUserService.addUser(user);
+        return JSON.toJSONString(user);
+    }
+
     @RequestMapping(value = "/download")
     public ResponseEntity<byte[]> download() throws UnsupportedEncodingException {
         HttpHeaders h = new HttpHeaders();
@@ -70,13 +88,6 @@ public class TestController {
         return new ResponseEntity<>("张三张三张三张三张三张三张三张三,b,c,d,e".getBytes("UTF-8"), h, HttpStatus.OK);
     }
 
-//    @RequestMapping(value = "/downloadCsv")
-//    public void downloadCsv() throws UnsupportedEncodingException {
-//        HttpHeaders h = new HttpHeaders();
-//        h.add("Content-Type", "text/csv; charset=UTF-8");
-//        h.setContentDispositionFormData("filename", "foobar.csv");
-//        new ResponseEntity<>("张三张三张三张三张三张三张三张三,b,c,d,e".getBytes("UTF-8"), h, HttpStatus.OK);
-//    }
     @RequestMapping(value = "/downloadCsv")
     public void downloadCsv(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");

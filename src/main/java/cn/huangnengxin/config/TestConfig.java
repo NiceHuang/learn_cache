@@ -19,11 +19,11 @@ import javax.sql.DataSource;
  */
 
 @Configuration
-@MapperScan(basePackages = "cn.huangnengxin.dao.mysql", sqlSessionFactoryRef = "testSqlSessionFactory")
+@MapperScan(basePackages = "cn.huangnengxin.dao.mysql.master", sqlSessionFactoryRef = "testSqlSessionFactory")
 public class TestConfig {
 
     @Primary
-    @Bean(name="testDataSource")
+    @Bean(name="write")
     @ConfigurationProperties(prefix = "spring.datasource.test")
     public DataSource testDataSource(){
         return DataSourceBuilder.create().build();
@@ -31,7 +31,7 @@ public class TestConfig {
 
     @Primary
     @Bean(name="testSqlSessionFactory")
-    public SqlSessionFactory testSqlSessionFactory(@Qualifier("testDataSource") DataSource dataSource) throws Exception {
+    public SqlSessionFactory testSqlSessionFactory(@Qualifier("write") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         return bean.getObject();
@@ -39,7 +39,7 @@ public class TestConfig {
 
     @Primary
     @Bean(name="testTransactionManager")
-    public DataSourceTransactionManager testTransactionManager(@Qualifier("testDataSource") DataSource dataSource){
+    public DataSourceTransactionManager testTransactionManager(@Qualifier("write") DataSource dataSource){
         return new DataSourceTransactionManager(dataSource);
     }
 

@@ -1,8 +1,10 @@
 package cn.huangnengxin.service.impl;
 
+import cn.huangnengxin.annotation.Master;
 import cn.huangnengxin.annotation.RedisCache;
+import cn.huangnengxin.annotation.Slave;
 import cn.huangnengxin.common.core.User;
-import cn.huangnengxin.dao.mysql.DataPortralUserDao;
+import cn.huangnengxin.dao.mysql.master.DataPortralUserDao;
 import cn.huangnengxin.service.DataPortralUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +30,15 @@ public class DataPortralUserServiceImpl implements DataPortralUserService {
     @RedisCache
     public List<User> fetchUsers(String key, Map<String, Object> map) {
         return dataPortralUserDao.fetchUser();
+    }
+
+    @Slave
+    public List<User> fetchUsers() {
+        return dataPortralUserDao.fetchUser();
+    }
+
+    @Master
+    public void addUser(User user) {
+        dataPortralUserDao.addUser(user);
     }
 }

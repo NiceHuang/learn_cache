@@ -1,5 +1,3 @@
-import org.springframework.context.annotation.Bean;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +7,11 @@ import java.util.List;
 public class Test {
 
     public static void main(String[] args) {
-        List<String> list = new ArrayList<>(7);
-        list.add(1, "1");
-        System.out.print(1);
+        List<String> list = new ArrayList<>(0);
+        list.add("1");
+        Integer i = 0;
+        Integer ii = 0;
+        System.out.print(i.equals(ii));
     }
 
     public static class A {
